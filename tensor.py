@@ -15,7 +15,7 @@ model = tf.keras.models.Sequential([
 ]) 
 
 model.compile(optimizer='adam',
-              loss='sparsr_categorical_croosentropy',
+              loss='sparsr_categorical_crossentropy',
               metrics=['accuracy'])
 
 model.fit(x_train, y_train, epochs=5)
