@@ -13,5 +13,4 @@
 ## Source Code
  - tensor.py : KanuKim97
  - Image_Classification.py : KanuKim97
- - Source: https://www.tensorflow.org/tutorials?hl=ko
-
+ - Text_Classification.py : KanuKim97
