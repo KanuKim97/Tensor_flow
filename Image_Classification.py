@@ -61,3 +61,61 @@ model.fit(train_img, train_labels, epochs=20)
 test_loss, test_acc = model.evaluate(test_img, test_labels, verbose=2)
 print("\n test Accuracy: ", test_acc)
 print("\n test_loss: ", test_loss)
+
+#Predictions
+predictions = model.predict(test_img)
+#Reliability
+predictions[0]
+
+#Compare
+np.argmax(predictions[0])
+test_labels[0]
+
+def plot_img(i, prediction_arr, true_label, img):
+    prediction_arr, true_label, img = prediction_arr[i], true_label[i], img[i]
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+
+    plt.imshow(img, cmap=plt.cm.binary)
+
+    predicted_label = np.argmax(prediction_arr)
+    if predicted_label == true_label:
+        color = 'blue'
+    else:
+        color = 'red'
+
+    plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label], 100*np.max(prediction_arr),
+    class_names[true_label]), color = color)
+
+def plot_value_arr(i, prediction_arr, true_label):
+    prediction_arr, true_label = prediction_arr[i], true_label[i]
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+    thisplot = plt.bar(range(10), prediction_arr, color="#777777")
+    plt.ylim([0, 1])
+    predicted_label = np.argmax(prediction_arr)
+
+    thisplot[predicted_label].set_color('red')
+    thisplot[true_label].set_color('blue')
+
+num_rows = 5
+num_cols = 3
+num_img = num_rows*num_cols
+plt.figure(figsize=(2*num_cols, 2*num_rows))
+for i in range(num_img):
+    plt.subplot(num_rows, 2*num_cols, 2*i+1)
+    plot_img(i, predictions, test_labels, test_img)
+    plt.subplot(num_rows, 2*num_cols, 2*i+2)
+    plot_value_arr(i, predictions, test_labels)
+plt.show()
+
+img = test_img[0]
+img = (np.expand_dims(img,0))
+
+predictions_single = model.predict(img)
+
+plot_value_arr(0, predictions_single, test_labels)
+_ = plt.xticks(range(10), class_names, rotation = 45)
+np.argmax(predictions_single[0])
