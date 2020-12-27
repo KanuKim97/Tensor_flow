@@ -14,3 +14,6 @@
  - tensor.py : KanuKim97
  - Image_Classification.py : KanuKim97
  - Text_Classification.py : KanuKim97
+ - TF_hub.py : KanuKim97
+ - Regression.py : KanuKim97
+ - Over_Underfitting.py : KanuKim97
