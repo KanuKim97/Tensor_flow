@@ -11,9 +11,11 @@
 >Gpu: Nvidia GTX 960M 
 
 ## Source Code
- - tensor.py : KanuKim97
- - Image_Classification.py : KanuKim97
- - Text_Classification.py : KanuKim97
- - TF_hub.py : KanuKim97
- - Regression.py : KanuKim97
- - Over_Underfitting.py : KanuKim97
+ - tensor.py 
+ - Image_Classification.py 
+ - Text_Classification.py 
+ - TF_hub.py 
+ - Regression.py 
+ - Over_Underfitting.py 
+ - L2_regularization.py 
+ - Dropout.py
