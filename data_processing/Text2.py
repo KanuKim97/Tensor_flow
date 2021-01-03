@@ -49,3 +49,14 @@ all_labeled_data = all_labeled_data.shuffle(
 for text, label in all_labeled_data.take(10):
     print("Sentence: ", text.numpy())
     print("Label: ", label.numpy())
+
+tokenizer = tf_text.UnicodeScriptTokenizer()
+
+def tokenize(text, unused_label):
+    lower_case = tf_text.case_fold_utf8(text)
+    return tokenizer.tokenize(lower_case)
+
+tokenized_ds = all_labeled_data.map(tokenize)
+
+for text_batch in tokenized_ds.take(5):
+    print("Tokens: ", text_batch.numpy())
