@@ -1,5 +1,4 @@
 import tensorflow as tf 
-import matplotlib.pyplot as plt
 from tensorflow.keras import datasets, layers, models
 
 (train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()
