@@ -19,3 +19,9 @@
  - Over_Underfitting.py 
  - L2_regularization.py 
  - Dropout.py
+### data_processing
+ - Image.py
+ - Text1.py (Issued)
+ - Text2.py
+### Adv
+ - CNN.py
