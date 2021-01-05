@@ -25,3 +25,5 @@
  - Text2.py
 ### Adv
  - CNN.py
+ - Image_Classification_v2.py
+ - Image_Classification_v3.py
