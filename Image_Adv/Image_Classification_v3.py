@@ -65,6 +65,8 @@ model = Sequential([
     layers.Dropout(0.2),
     layers.Flatten(),
     layers.Dense(128, activation='relu'),
+    layers.Dense(32, kernel_regularizer=keras.regularizers.l2(0.001), activation='relu'),
+    layers.Dense(16, activation='relu'),
     layers.Dense(num_classes)
 ])
 
