@@ -26,4 +26,5 @@
 ### Adv
  - CNN.py
  - Image_Classification_v2.py
- - Image_Classification_v3.py
+ - Image_Classification_v3.py (add l2_layer & dense_layer)
+ - Image_Classification_v4.py
