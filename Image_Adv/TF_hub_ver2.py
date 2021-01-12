@@ -1,10 +1,11 @@
 import tensorflow as tf
 import tensorflow_hub as tf_hub
-from tensorflow import keras
+from tensorflow.keras import layers
 
 import matplotlib.pylab as plt
 import numpy as np 
 import PIL.Image as Image
+import time
 
 classiifier_url = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/2"
 
@@ -21,7 +22,7 @@ grace_hopper.shape
 
 result = classifier.predict(grace_hopper[np.newaxis, ...])
 predicted_class = np.argmax(result[0], axis = -1)
-labels_path = tf.keras.utils.get_file('','')
+labels_path = tf.keras.utils.get_file('ImageNetLabels.txt','https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt')
 imagenet_labels = np.array(open(labels_path).read().splitlines())
 
 plt.imshow(grace_hopper)
@@ -44,18 +45,18 @@ for image_batch, label_batch in image_data:
     break
 
 result_batch = classifier.predict(image_batch)
-result_batch.shape
-predicted_class_names = imagenet_labels[mp.argamx(result_batch, axis = -1)]
-predicted_class_names
+print(result_batch.shape)
+predicted_class_names = imagenet_labels[np.argmax(result_batch, axis = -1)]
+print(predicted_class_names)
 
-plt.figure(figsize=(10, 9 ))
+plt.figure(figsize=(10, 9))
 plt.subplots_adjust(hspace=0.5)
 for n in range(30):
-    plt.subplot(6.5, n+1)
+    plt.subplot(6, 5, n+1)
     plt.imshow(image_batch[n])
     plt.title(predicted_class_names[n])
     plt.axis('off')
-_ = plt.subtitle("ImageNet Predictions")
+_ = plt.suptitle("ImageNet Predictions")
 
 feature_extractor_url = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/2"
 
@@ -70,7 +71,7 @@ feature_extractor_layer.trainable = False
 
 model = tf.keras.Sequential([
     feature_extractor_layer,
-    keras.layers.Dense(image_data.num_classes, activation='softmax')
+    layers.Dense(image_data.num_classes, activation='softmax')
 ])
 model.summary()
 
@@ -82,3 +83,54 @@ model.compile(
     loss='categorical_crossentropy',
     metrics=['acc']
 )
+
+class CollectBatchStats(tf.keras.callbacks.Callback):
+    def __init__(self):
+        self.batch_losses = []
+        self.batch_acc = []
+    
+    def on_train_batch_end(self, batch, logs = None):
+        self.batch_losses.append(logs['loss'])
+        self.batch_acc.append(logs['acc'])
+        self.model.reset_metrics()
+
+steps_per_epochs = np.ceil(image_data.samples/image_data.batch_size)
+
+batch_stats_callback = CollectBatchStats()
+
+history = model.fit_generator(
+    image_data,
+    epochs=2,
+    steps_per_epoch=steps_per_epochs,
+    callbacks = [batch_stats_callback]
+)
+
+plt.figure()
+plt.ylabel("loss")
+plt.xlabel("Training Steps")
+plt.ylim([0, 2])
+plt.plot(batch_stats_callback.batch_losses)
+
+plt.figure()
+plt.ylabel("Accuracy")
+plt.xlabel("Training Steps")
+plt.ylim([0, 1])
+plt.plot(batch_stats_callback.batch_acc)
+
+class_names = sorted(image_data.class_indices.items(), key = lambda pair:pair[1])
+class_names = np.array([key.title() for key, value in class_names])
+predicted_batch = model.predict(image_batch)
+predicted_id = np.argmax(predicted_batch, axis=-1)
+predicted_label_batch = class_names[predicted_id]
+
+label_id = np.argmax(label_batch, axis=-1)
+
+plt.figure(figsize=(10,9))
+plt.subplots_adjust(hspace=0.5)
+for n in range(30):
+  plt.subplot(6,5,n+1)
+  plt.imshow(image_batch[n])
+  color = "green" if predicted_id[n] == label_id[n] else "red"
+  plt.title(predicted_label_batch[n].title(), color=color)
+  plt.axis('off')
+_ = plt.suptitle("Model predictions (green: correct, red: incorrect)")
