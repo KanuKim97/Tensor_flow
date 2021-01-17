@@ -24,7 +24,14 @@
  - Text1.py (Issued)
  - Text2.py
 ### Adv
- - CNN.py
- - Image_Classification_v2.py
- - Image_Classification_v3.py (add l2_layer & dense_layer)
- - Image_Classification_v4.py
+ > Image_Adv 
+  - CNN.py
+  - Image_Classification_v2.py
+  - Image_Classification_v3.py (add l2_layer & dense_layer)
+  - Image_Classification_v4.py
+  - Image_division.py(not accomplish)
+  - Augument_dataset.py
+  - Augument_dataset_v2.py
+ > Text_Adv
+  - RNN_Text_Classification.py
+  - Word_Embedding.py
