@@ -61,3 +61,16 @@ tokenized_ds = all_labeled_data.map(tokenize)
 for text_batch in tokenized_ds.take(5):
     print("Tokens: ", text_batch.numpy())
 
+tokenized_ds = configure_dataset(tokenized_ds)
+
+vocab_dict = collections.defaultdict(lambda: 0)
+for toks in tokenized_ds.as_numpy_iteraotr():
+    for tok in toks:
+        vocab_dict[tok] += 1
+
+vocab = sorted(vocab_dict.items(), key=lambda x: x[1], reversed=True)
+vocab = [token for token, count in vocab]
+vocab = vocab[:VOCAB_SIZE]
+vocab_size = len(vocab)
+print("Vocab size: ", vocab_size)
+print("First five vocab entries:", vocab[:5])
