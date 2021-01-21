@@ -35,3 +35,5 @@
  > Text_Adv
   - RNN_Text_Classification.py
   - Word_Embedding.py
+  - RNN_Text_Creation.py
+  - Machine_Translation.py (line 100 issued)
