@@ -24,11 +24,11 @@
   - Image_Classification_v2.py
   - Image_Classification_v3.py (add l2_layer & dense_layer)
   - Image_Classification_v4.py
-  - Image_division.py(not accomplish)
+  - Image_division.py(almost accomplish)
   - Augument_dataset.py
   - Augument_dataset_v2.py
  > Text_Adv
   - RNN_Text_Classification.py
   - Word_Embedding.py
   - RNN_Text_Creation.py
-  - Machine_Translation.py (line 100 issued)
+  - Machine_Translation.py (almost accomplish)
