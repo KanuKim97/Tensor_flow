@@ -144,3 +144,20 @@ model_history = model.fit(
     validation_data=test_dataset,
     callbacks=[DisplayCallBack()]
 )
+
+loss = model_history.history['loss']
+val_loss = model_history.history['val_loss']
+
+epochs = range(EPOCHS)
+
+plt.figure()
+plt.plot(epochs, loss, 'r', label='Training loss')
+plt.plot(epochs, val_loss, 'bo', label='Validation loss')
+plt.title('Training and Validation Loss')
+plt.xlabel('EPOCHS')
+plt.ylabel('Loss Value')
+plt.ylim([0, 1])
+plt.legend()
+plt.show()
+
+show_predictions(test_dataset, 5)
