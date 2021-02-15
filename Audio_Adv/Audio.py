@@ -190,8 +190,30 @@ plt.show()
 test_audio = [] 
 test_labels = []
 for audio, label in test_ds:
-  test_audio = np.array(test_audio)
-  test_labels = np.array(test_labels)
+  test_audio.append(audio.numpy())
+  test_labels.append(label.numpy())
 
 test_audio = np.array(test_audio)
 test_labels = np.array(test_labels)
+
+y_pred = np.argmax(model.predict(test_audio), axis=1)
+y_true = test_labels
+
+test_acc = sum(y_pred == y_true) / len(y_true)
+print(f'Test set accuracy: {test_acc:.0%}')
+
+confusion_matrix = tf.math.confusion_matrix(y_true, y_pred)
+plt.figure(figsize=(10, 8))
+sns.heatmap(confusion_matrix, xticklabels=commands, yticklabels=commands, annot=True, fmt='g')
+plt.xlabel('Prediction')
+plt.ylabel('Label')
+plt.show()
+
+sample_file = data_dir/'no/fffcabd1_nohash_0.wav'
+sample_ds = preprocess_dataset([str(sample_file)])
+
+for spectrogram, label in sample_ds.batch(1):
+  prediction = model(spectrogram)
+  plt.bar(commands, tf.nn.softmax(prediction[0]))
+  plt.title(f'Predictions for "{commands[label[0]]}"')
+  plt.show()
