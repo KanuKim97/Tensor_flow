@@ -14,7 +14,11 @@ from six.moves.urllib.request import urlopen
 import tensorflow as tf
 import tensorflow_hub as tf_hub
 
-tf.get_logger().setLevel('err')
+from object_detection.utils import label_map_util
+from object_detection.utils import visualization_utils as viz_utils
+from object_detection.utils import ops as utils_ops
+
+tf.get_logger().setLevel('ERROR')
 
 def load_images_into_numpy_arr(path):
     image = None
@@ -72,3 +76,30 @@ ALL_MODELS = {
 'Mask R-CNN Inception ResNet V2 1024x1024' : 'https://tfhub.dev/tensorflow/mask_rcnn/inception_resnet_v2_1024x1024/1'
 }
 
+IMAGE_FOR_TEST = {
+    'Beach' : 'models/research/object_detection/test_images/image2.jpg',
+    'Dogs' : 'models/research/object_detection/test_images/image1.jpg',
+    'Naxos Taverna' : 'http://upload.wikimedia.org/wikipedia/commons/6/60/Naxos_Taverna.jpg',
+    'Beatles' : 'https://upload.wikimedia.org/wikipedia/commons/1/1b/The_Coleoptera_of_the_British_islands_%28Plate_125%29_%288592917784%29.jpg',
+    'Phones' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Biblioteca_Maim%C3%B3nides%2C_Campus_Universitario_de_Rabanales_007.jpg/1024px-Biblioteca_Maim%C3%B3nides%2C_Campus_Universitario_de_Rabanales_007.jpg',
+    'Birds' : 'https://upload.wikimedia.org/wikipedia/commons/0/09/The_smaller_British_birds_%288053836633%29.jpg'
+}
+
+COCO17_HUMAN_POSE_KEYPOINTS = [(0, 1),
+ (0, 2),
+ (1, 3),
+ (2, 4),
+ (0, 5),
+ (0, 6),
+ (5, 7),
+ (7, 9),
+ (6, 8),
+ (8, 10),
+ (5, 6),
+ (5, 11),
+ (6, 12),
+ (11, 12),
+ (11, 13),
+ (13, 15),
+ (12, 14),
+ (14, 16)]
