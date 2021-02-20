@@ -1,5 +1,7 @@
 import tensorflow as tf 
+
 import matplotlib.pyplot as plt
+
 from tensorflow.keras import datasets, layers, models
 
 (train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()
@@ -30,4 +32,7 @@ model.compile(
 model.fit(train_images, train_labels, epochs = 8)
 
 test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
+
 print(test_acc)
+
+
